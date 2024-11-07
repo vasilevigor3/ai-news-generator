@@ -16,6 +16,7 @@ const NewsForm = () => {
     const [templateOptions, setTemplateOptions] = useState([]);
 
     const [templateChoice, setTemplateChoice] = useState("template1");
+    const [subtitlePosition, setSubtitlePosition] = useState("center");
     const [userVideo, setUserVideo] = useState(null);
     const [videoGenerated, setVideoGenerated] = useState(false);
     const [generatedVideoUrl, setGeneratedVideoUrl] = useState(null);
@@ -78,6 +79,7 @@ const NewsForm = () => {
         formData.append("script", result.script);
         formData.append("subtitle_color", subtitleColor);
         formData.append("videoLength", videoLength);
+        formData.append("subtitle_position", subtitlePosition);
 
         try {
             const response = await axios.post('https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/generate-video', formData, {
@@ -102,6 +104,7 @@ const NewsForm = () => {
         setIsProcessingVideo(true);  // Start video processing
         const formData = new FormData();
         formData.append("video", userVideo);
+        formData.append("subtitle_position", subtitlePosition);
 
         try {
             const response = await axios.post('https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/upload-video', formData, {
@@ -154,9 +157,7 @@ const NewsForm = () => {
             </Form>
 
             {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
-            {isProcessingVideo && (
-                <Alert variant="info" className="mt-3">Processing video, please wait...</Alert>
-            )}
+
 
             {/* Conditionally render articles list if content has not been generated */}
             {articles.length > 0 && !contentGenerated && (
@@ -241,6 +242,10 @@ const NewsForm = () => {
                 </div>
             )}
 
+            {isProcessingVideo && (
+                <Alert variant="info" className="mt-3">Processing video, please wait...</Alert>
+            )}
+
             <Row className="my-4">
                 <Col md={6}>
                     <Form.Group controlId="templateChoice" className="mb-2">
@@ -250,6 +255,15 @@ const NewsForm = () => {
                             {templateOptions.map((template, index) => (
                                 <option key={index} value={template}>{template}</option>
                             ))}
+                        </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId="subtitlePosition" className="mb-2">
+                        <Form.Label>Select Subtitles Position</Form.Label>
+                        <Form.Control as="select" value={subtitlePosition} onChange={(e) => setSubtitlePosition(e.target.value)}>
+                            <option value="bottom">Bottom</option>
+                            <option value="top">Top</option>
+                            <option value="center">Center</option>
                         </Form.Control>
                     </Form.Group>
 
@@ -279,36 +293,54 @@ const NewsForm = () => {
                         {isProcessingVideo ? <Spinner animation="border" size="sm" /> : "Generate Video"}
                     </Button>
                     <Row>
-                    {videoGenerated &&
-                    <Col md={12} >
-                        <Form.Group controlId="userVideo" className="mb-2">
-                            <Form.Label>Upload Your Own Video To Generate Subtitles</Form.Label>
-                            <Form.Control type="file" onChange={(e) => setUserVideo(e.target.files[0])} />
-                        </Form.Group>
-                        <Button
-                            variant="primary"
-                            className="mb-5"
-                            onClick={handleUploadAndGenerate}
-                            disabled={!result || isProcessingVideo || loading}
-                        >
-                            {isProcessingVideo ? <Spinner animation="border" size="sm" /> : "Upload Video"}
-                        </Button>
-                    </Col>
-                }
+                        {videoGenerated &&
+                            <Col md={12} >
+                                <Form.Group controlId="userVideo" className="mb-2">
+                                    <Form.Label>Upload Your Own Video To Generate Subtitles</Form.Label>
+                                    <Form.Group controlId="subtitlePosition" className="mb-2">
+                                        <Form.Label >Select Subtitles Position</Form.Label>
+                                        <Form.Control as="select" value={subtitlePosition} onChange={(e) => setSubtitlePosition(e.target.value)}>
+                                            <option value="bottom">Bottom</option>
+                                            <option value="top">Top</option>
+                                            <option value="center">Center</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                    <Form.Control type="file" onChange={(e) => setUserVideo(e.target.files[0])} />
+                                </Form.Group>
+                                <Button
+                                    variant="primary"
+                                    className="mb-5"
+                                    onClick={handleUploadAndGenerate}
+                                    disabled={!result || isProcessingVideo || loading}
+                                >
+                                    {isProcessingVideo ? <Spinner animation="border" size="sm" /> : "Upload Video"}
+                                </Button>
+                            </Col>
+                        }
                     </Row>
                 </Col>
 
                 {!videoGenerated &&
-                    <Col md={6} className="text-center">
+                    <Col md={6}>
                         <Form.Group controlId="userVideo" className="mb-2">
-                            <Form.Label>Upload Your Own Video To Generate Subtitles</Form.Label>
+                            <Form.Label className="text-center" style={{ display: "block", width: "100%" }}>
+                                Upload Your Own Video To Generate Subtitles
+                            </Form.Label>
+                            <Form.Group controlId="subtitlePosition" className="mb-2">
+                                <Form.Label >Select Subtitles Position</Form.Label>
+                                <Form.Control as="select" value={subtitlePosition} onChange={(e) => setSubtitlePosition(e.target.value)}>
+                                    <option value="center">Center</option>
+                                    <option value="top">Top</option>
+                                    <option value="bottom">Bottom</option>
+                                </Form.Control>
+                            </Form.Group>
                             <Form.Control type="file" onChange={(e) => setUserVideo(e.target.files[0])} />
                         </Form.Group>
                         <Button
                             variant="primary"
                             className="mb-5"
                             onClick={handleUploadAndGenerate}
-                            disabled={!result || isProcessingVideo || loading}
+                            disabled={isProcessingVideo || loading}
                         >
                             {isProcessingVideo ? <Spinner animation="border" size="sm" /> : "Upload Video"}
                         </Button>
@@ -335,6 +367,8 @@ const NewsForm = () => {
                         </div>
                     )}
                 </Col>
+
+
             </Row>
         </Container>
     );
