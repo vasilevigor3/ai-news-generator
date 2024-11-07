@@ -35,7 +35,7 @@ const NewsForm = () => {
         setContentGenerated(false);
 
         try {
-            const response = await axios.post('content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/fetch-news', { topic });
+            const response = await axios.post('https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/fetch-news', { topic });
             const fetchedArticles = response.data;
             setArticles(fetchedArticles);
         } catch (err) {
@@ -57,7 +57,7 @@ const NewsForm = () => {
         }
 
         try {
-            const response = await axios.post('content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/generate-content', {
+            const response = await axios.post('https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/generate-content', {
                 articleSummary,
                 seoKeywords,
                 videoLength,  // Add videoLength here as part of the JSON payload
@@ -80,7 +80,7 @@ const NewsForm = () => {
         formData.append("videoLength", videoLength);
 
         try {
-            const response = await axios.post('content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/generate-video', formData, {
+            const response = await axios.post('https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/generate-video', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
                 responseType: 'blob'
             });
@@ -104,7 +104,7 @@ const NewsForm = () => {
         formData.append("video", userVideo);
 
         try {
-            const response = await axios.post('content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/upload-video', formData, {
+            const response = await axios.post('https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/upload-video', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
                 responseType: 'blob'
             });
@@ -122,7 +122,7 @@ const NewsForm = () => {
         // Fetch templates from the backend when video length changes
         const fetchTemplates = async () => {
             try {
-                const response = await axios.get(`content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/templates/${videoLength}`);
+                const response = await axios.get(`https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/templates/${videoLength}`);
                 setTemplateOptions(response.data.templates);
                 setTemplateChoice(''); // Reset selected template
             } catch (error) {
