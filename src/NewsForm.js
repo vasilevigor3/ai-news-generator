@@ -20,7 +20,8 @@ const NewsForm = () => {
     const [videoGenerated, setVideoGenerated] = useState(false);
     const [generatedVideoUrl, setGeneratedVideoUrl] = useState(null);
     const [videoLength, setVideoLength] = useState("super_short");
-    const [subtitleColor, setSubtitleColor] = useState("white");
+    const [subtitleColor, setSubtitleColor] = useState("#ffeb82");
+    const [isProcessingVideo, setIsProcessingVideo] = useState(false);
 
     const handleFetchNews = async (e) => {
         e.preventDefault();
@@ -34,7 +35,7 @@ const NewsForm = () => {
         setContentGenerated(false);
 
         try {
-            const response = await axios.post('https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/fetch-news', { topic });
+            const response = await axios.post('content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/fetch-news', { topic });
             const fetchedArticles = response.data;
             setArticles(fetchedArticles);
         } catch (err) {
@@ -56,7 +57,7 @@ const NewsForm = () => {
         }
 
         try {
-            const response = await axios.post('https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/generate-content', {
+            const response = await axios.post('content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/generate-content', {
                 articleSummary,
                 seoKeywords,
                 videoLength,  // Add videoLength here as part of the JSON payload
@@ -71,21 +72,26 @@ const NewsForm = () => {
     };
 
     const handleVideoGeneration = async () => {
+        setIsProcessingVideo(true);  // Start video processing
         const formData = new FormData();
         formData.append("template_choice", templateChoice);
         formData.append("script", result.script);
         formData.append("subtitle_color", subtitleColor);
         formData.append("videoLength", videoLength);
 
-        const response = await axios.post('https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/generate-video', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-            responseType: 'blob'
-        });
-
-        console.log(response.data)
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        setGeneratedVideoUrl(url);
-        setVideoGenerated(true);
+        try {
+            const response = await axios.post('content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/generate-video', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+                responseType: 'blob'
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            setGeneratedVideoUrl(url);
+            setVideoGenerated(true);
+        } catch (error) {
+            setError('Failed to generate video. Please try again.');
+        } finally {
+            setIsProcessingVideo(false);  // Stop video processing
+        }
     };
 
     const handleUploadAndGenerate = async () => {
@@ -93,21 +99,22 @@ const NewsForm = () => {
             setError("Please upload a video.");
             return;
         }
-
+        setIsProcessingVideo(true);  // Start video processing
         const formData = new FormData();
         formData.append("video", userVideo);
 
         try {
-            const response = await axios.post('https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/upload-video', formData, {
+            const response = await axios.post('content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/upload-video', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
-                responseType: 'blob'  // To handle the video file response
+                responseType: 'blob'
             });
-
             const url = window.URL.createObjectURL(new Blob([response.data]));
             setGeneratedVideoUrl(url);
             setVideoGenerated(true);
-        } catch (err) {
+        } catch (error) {
             setError("Failed to generate video with subtitles.");
+        } finally {
+            setIsProcessingVideo(false);  // Stop video processing
         }
     };
 
@@ -115,7 +122,7 @@ const NewsForm = () => {
         // Fetch templates from the backend when video length changes
         const fetchTemplates = async () => {
             try {
-                const response = await axios.get(`https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/templates/${videoLength}`);
+                const response = await axios.get(`content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net/api/templates/${videoLength}`);
                 setTemplateOptions(response.data.templates);
                 setTemplateChoice(''); // Reset selected template
             } catch (error) {
@@ -147,6 +154,9 @@ const NewsForm = () => {
             </Form>
 
             {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
+            {isProcessingVideo && (
+                <Alert variant="info" className="mt-3">Processing video, please wait...</Alert>
+            )}
 
             {/* Conditionally render articles list if content has not been generated */}
             {articles.length > 0 && !contentGenerated && (
@@ -233,7 +243,7 @@ const NewsForm = () => {
 
             <Row className="my-4">
                 <Col md={6}>
-                    <Form.Group controlId="templateChoice">
+                    <Form.Group controlId="templateChoice" className="mb-2">
                         <Form.Label>Select a Video Template</Form.Label>
                         <Form.Control as="select" value={templateChoice} onChange={(e) => setTemplateChoice(e.target.value)}>
                             <option value="">Select a template</option>
@@ -250,7 +260,7 @@ const NewsForm = () => {
                             value={subtitleColor}
                             onChange={(e) => setSubtitleColor(e.target.value)}
                         >
-                            <option value="#fcea8b" style={{ color: "black", backgroundColor: "#fcea8b" }}>🟨 Pastel Yellow</option>
+                            <option value="#ffeb82" style={{ color: "black", backgroundColor: "#ffeb82" }}>🟨 Pastel Yellow</option>
                             <option value="#ffa3b6" style={{ color: "black", backgroundColor: "#ffa3b6" }}>🟪 Pastel Pink</option>
                             <option value="#9bfaa5" style={{ color: "black", backgroundColor: "#9bfaa5" }}>🟩 Pastel Green</option>
                             <option value="#b1e5fa" style={{ color: "black", backgroundColor: "#b1e5fa" }}>🟦 Pastel Blue</option>
@@ -264,10 +274,28 @@ const NewsForm = () => {
                         variant="primary"
                         className="mb-5"
                         onClick={handleVideoGeneration}
-                        disabled={!result || loading || !templateChoice}
+                        disabled={!result || isProcessingVideo || loading || !templateChoice}
                     >
-                        Generate Video
+                        {isProcessingVideo ? <Spinner animation="border" size="sm" /> : "Generate Video"}
                     </Button>
+                    <Row>
+                    {videoGenerated &&
+                    <Col md={12} >
+                        <Form.Group controlId="userVideo" className="mb-2">
+                            <Form.Label>Upload Your Own Video To Generate Subtitles</Form.Label>
+                            <Form.Control type="file" onChange={(e) => setUserVideo(e.target.files[0])} />
+                        </Form.Group>
+                        <Button
+                            variant="primary"
+                            className="mb-5"
+                            onClick={handleUploadAndGenerate}
+                            disabled={!result || isProcessingVideo || loading}
+                        >
+                            {isProcessingVideo ? <Spinner animation="border" size="sm" /> : "Upload Video"}
+                        </Button>
+                    </Col>
+                }
+                    </Row>
                 </Col>
 
                 {!videoGenerated &&
@@ -280,9 +308,9 @@ const NewsForm = () => {
                             variant="primary"
                             className="mb-5"
                             onClick={handleUploadAndGenerate}
-                            disabled={!result || loading}
+                            disabled={!result || isProcessingVideo || loading}
                         >
-                            Upload Video
+                            {isProcessingVideo ? <Spinner animation="border" size="sm" /> : "Upload Video"}
                         </Button>
                     </Col>
                 }
@@ -307,23 +335,6 @@ const NewsForm = () => {
                         </div>
                     )}
                 </Col>
-
-                {videoGenerated &&
-                    <Col md={6} >
-                        <Form.Group controlId="userVideo" className="mb-2">
-                            <Form.Label>Upload Your Own Video To Generate Subtitles</Form.Label>
-                            <Form.Control type="file" onChange={(e) => setUserVideo(e.target.files[0])} />
-                        </Form.Group>
-                        <Button
-                            variant="primary"
-                            className="mb-5"
-                            onClick={handleUploadAndGenerate}
-                            disabled={!result || loading}
-                        >
-                            Upload Video
-                        </Button>
-                    </Col>
-                }
             </Row>
         </Container>
     );
