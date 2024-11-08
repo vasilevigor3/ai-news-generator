@@ -465,7 +465,7 @@ const NewsForm = () => {
                                     onClick={handleCustomUpload}
                                     disabled={!userCustomVideo || !userCustomText}
                                 >
-                                    {loading ? <Spinner animation="border" size="sm" /> : "Upload and Generate"}
+                                    {isProcessingVideo ? <Spinner animation="border" size="sm" /> : "Upload and Generate"}
                                 </Button>
 
                                 {uploadError && <Alert variant="danger">{uploadError}</Alert>}
