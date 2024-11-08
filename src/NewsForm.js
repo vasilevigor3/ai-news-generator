@@ -16,7 +16,7 @@ const NewsForm = () => {
     const [templateChoice, setTemplateChoice] = useState("template1");
     const [subtitlePosition, setSubtitlePosition] = useState("center");
     const [userVideo, setUserVideo] = useState(null);
-    const [videoGenerated, setVideoGenerated] = useState(false);
+    // const [videoGenerated, setVideoGenerated] = useState(false);
     const [generatedVideoUrl, setGeneratedVideoUrl] = useState(null);
     const [customGeneratedVideoUrl, setCustomGeneratedVideoUrl] = useState(null);
     const [videoLength, setVideoLength] = useState("super_short");
@@ -106,7 +106,7 @@ const NewsForm = () => {
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));
             setGeneratedVideoUrl(url);
-            setVideoGenerated(true);
+            // setVideoGenerated(true);
             setShowCustomSection(false);
         } catch (error) {
             setError('Failed to generate video. Please try again.');
@@ -132,7 +132,7 @@ const NewsForm = () => {
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));
             setGeneratedVideoUrl(url);
-            setVideoGenerated(true);
+            // setVideoGenerated(true);
             setShowCustomSection(false);
         } catch (error) {
             setError("Failed to generate video with subtitles.");
@@ -164,7 +164,7 @@ const NewsForm = () => {
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));
             setCustomGeneratedVideoUrl(url);
-            setVideoGenerated(true);
+            // setVideoGenerated(true);
             setShowCustomSection(false);
         } catch (error) {
             if (error.response?.data instanceof Blob) {
@@ -190,7 +190,7 @@ const NewsForm = () => {
         // Fetch templates from the backend when video length changes
         const fetchTemplates = async () => {
             try {
-                const response = await axios.get(path + '/api/templates/${videoLength}');
+                const response = await axios.get(path + `/api/templates/${videoLength}`);
                 setTemplateOptions(response.data.templates);
                 setTemplateChoice(''); // Reset selected template
             } catch (error) {
