@@ -30,8 +30,8 @@ const NewsForm = () => {
     const [userCustomText, setUserCustomText] = useState('');
     const [showCustomSection, setShowCustomSection] = useState(true);
     const [uploadError, setUploadError] = useState(null);
-    // const [path, setPath] = useState("http://127.0.0.1:5000");
-    const [path, setPath] = useState("https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net");
+    // const path = "http://127.0.0.1:5000";
+    const path = "https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net";
 
     const handleFetchNews = async (e) => {
         e.preventDefault();
