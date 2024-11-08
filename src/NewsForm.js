@@ -16,11 +16,11 @@ const NewsForm = () => {
     const [templateChoice, setTemplateChoice] = useState("template1");
     const [subtitlePosition, setSubtitlePosition] = useState("center");
     const [userVideo, setUserVideo] = useState(null);
-    // const [videoGenerated, setVideoGenerated] = useState(false);
     const [generatedVideoUrl, setGeneratedVideoUrl] = useState(null);
     const [customGeneratedVideoUrl, setCustomGeneratedVideoUrl] = useState(null);
     const [videoLength, setVideoLength] = useState("super_short");
     const [subtitleColor, setSubtitleColor] = useState("#ffeb82");
+    const [addSubtitles, setAddSubtitles] = useState(false);
     const [isProcessingVideo, setIsProcessingVideo] = useState(false);
     const [script, setScript] = useState('');
     const [result, setResult] = useState(null);
@@ -153,9 +153,11 @@ const NewsForm = () => {
         const formData = new FormData();
         formData.append("video", userCustomVideo);
         formData.append("custom_text", userCustomText);
-
-        formData.append("subtitle_color", subtitleColor);
-        formData.append("subtitle_position", subtitlePosition);
+        if (addSubtitles) {
+            formData.append('add_subtitles', addSubtitles);
+            formData.append('subtitle_position', subtitlePosition);
+            formData.append('subtitle_color', subtitleColor);
+        }
 
         try {
             const response = await axios.post(path + '/api/custom-upload-generate', formData, {
@@ -424,29 +426,43 @@ const NewsForm = () => {
                                     <Form.Control type="file" onChange={(e) => setUserCustomVideo(e.target.files[0])} />
                                 </Form.Group>
 
-                                <Form.Group controlId="subtitlePosition" className="mb-2">
-                                    <Form.Label style={{ fontWeight: 'bold' }}>Select Subtitles Position</Form.Label>
-                                    <Form.Control as="select" value={subtitlePosition} onChange={(e) => setSubtitlePosition(e.target.value)}>
-                                        <option value="bottom">Bottom</option>
-                                        <option value="top">Top</option>
-                                        <option value="center">Center</option>
-                                    </Form.Control>
+                                <Form.Group controlId="addSubtitles" className="mb-2">
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Add Subtitles"
+                                        checked={addSubtitles}
+                                        onChange={(e) => setAddSubtitles(e.target.checked)}
+                                        style={{ marginRight: '510px' }}
+                                    />
                                 </Form.Group>
 
-                                <Form.Group controlId="subtitleColor" className="mb-2">
-                                    <Form.Label style={{ fontWeight: 'bold' }}>Select Subtitle Color</Form.Label>
-                                    <Form.Control
-                                        as="select"
-                                        value={subtitleColor}
-                                        onChange={(e) => setSubtitleColor(e.target.value)}
-                                    >
-                                        <option value="#ffeb82" style={{ color: "black", backgroundColor: "#ffeb82" }}>🟨 Pastel Yellow</option>
-                                        <option value="#ffa3b6" style={{ color: "black", backgroundColor: "#ffa3b6" }}>🟪 Pastel Pink</option>
-                                        <option value="#9bfaa5" style={{ color: "black", backgroundColor: "#9bfaa5" }}>🟩 Pastel Green</option>
-                                        <option value="#b1e5fa" style={{ color: "black", backgroundColor: "#b1e5fa" }}>🟦 Pastel Blue</option>
-                                        <option value="#dcb2f7" style={{ color: "black", backgroundColor: "#dcb2f7" }}>🟪 Pastel Lavender</option>
-                                    </Form.Control>
-                                </Form.Group>
+                                {addSubtitles && (
+                                    <>
+                                        <Form.Group controlId="subtitlePosition" className="mb-2">
+                                            <Form.Label style={{ fontWeight: 'bold' }}>Select Subtitles Position</Form.Label>
+                                            <Form.Control as="select" value={subtitlePosition} onChange={(e) => setSubtitlePosition(e.target.value)}>
+                                                <option value="bottom">Bottom</option>
+                                                <option value="top">Top</option>
+                                                <option value="center">Center</option>
+                                            </Form.Control>
+                                        </Form.Group>
+
+                                        <Form.Group controlId="subtitleColor" className="mb-2">
+                                            <Form.Label style={{ fontWeight: 'bold' }}>Select Subtitle Color</Form.Label>
+                                            <Form.Control
+                                                as="select"
+                                                value={subtitleColor}
+                                                onChange={(e) => setSubtitleColor(e.target.value)}
+                                            >
+                                                <option value="#ffeb82" style={{ color: "black", backgroundColor: "#ffeb82" }}>🟨 Pastel Yellow</option>
+                                                <option value="#ffa3b6" style={{ color: "black", backgroundColor: "#ffa3b6" }}>🟪 Pastel Pink</option>
+                                                <option value="#9bfaa5" style={{ color: "black", backgroundColor: "#9bfaa5" }}>🟩 Pastel Green</option>
+                                                <option value="#b1e5fa" style={{ color: "black", backgroundColor: "#b1e5fa" }}>🟦 Pastel Blue</option>
+                                                <option value="#dcb2f7" style={{ color: "black", backgroundColor: "#dcb2f7" }}>🟪 Pastel Lavender</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </>
+                                )}
 
                                 <Form.Group controlId="userCustomText" className="mb-2">
                                     <Form.Label style={{ fontWeight: 'bold' }}>Enter Your Custom Text</Form.Label>
