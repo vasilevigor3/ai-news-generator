@@ -1,6 +1,5 @@
 // src/LoginPage.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function LoginPage() {
@@ -8,7 +7,8 @@ function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  
+  const [error, setError] = useState('');
+
   // const path = "http://localhost:5000";
   const path = "https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net";
 
