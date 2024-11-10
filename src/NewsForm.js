@@ -194,9 +194,7 @@ const NewsForm = () => {
             try {
                 const response = await axios.get(
                     `${path}/api/templates/${videoLength}`,
-                    {
-                        withCredentials: true // если вам нужно отправлять куки для кросс-доменных запросов
-                    }
+
                 );
                 setTemplateOptions(response.data.templates);
                 setTemplateChoice(''); // Сброс выбранного шаблона
