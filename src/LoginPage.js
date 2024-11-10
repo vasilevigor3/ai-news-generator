@@ -23,12 +23,12 @@ function LoginPage() {
         credentials: 'include',
         body: JSON.stringify({ username, password })
       });
-      window.location.href = "https://nice-pebble-0a855410f.5.azurestaticapps.net/"
+      
       const data = await response.json();
   
       if (response.ok) {
         // navigate(data.redirect_url);
-        window.location.href = "git commhttps://nice-pebble-0a855410f.5.azurestaticapps.net/"
+        window.location.href = "https://nice-pebble-0a855410f.5.azurestaticapps.net/"
       } else {
         setError(data.error || 'Login failed');
       }
