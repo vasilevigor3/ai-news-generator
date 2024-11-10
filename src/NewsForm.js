@@ -81,6 +81,7 @@ const NewsForm = () => {
                 videoLength,  // Add videoLength here as part of the JSON payload
             });
             setResult(response.data);
+            setScript(response.data.script)
             setContentGenerated(true);
         } catch (err) {
             setError('Failed to generate content. Please try again.');
@@ -211,8 +212,7 @@ const NewsForm = () => {
     const handleLogout = async () => {
         try {
             const response = await fetch(path + '/auth/logout', {
-                method: 'GET',
-                credentials: 'include' // Обязательно добавьте этот параметр для отправки куки
+                method: 'GET'
             });
             const data = await response.json();
             if (response.ok) {
