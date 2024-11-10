@@ -8,8 +8,7 @@ function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  
   // const path = "http://localhost:5000";
   const path = "https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net";
 
