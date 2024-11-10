@@ -45,6 +45,7 @@ const NewsForm = () => {
         setContentGenerated(false);
 
         try {
+            const token = localStorage.getItem('auth_token');
             const response = await axios.post(path + '/api/fetch-news', { headers: { 'Authorization': `Bearer ${token}` }, topic });
             const fetchedArticles = response.data;
             setArticles(fetchedArticles);
@@ -74,6 +75,7 @@ const NewsForm = () => {
         }
 
         try {
+            const token = localStorage.getItem('auth_token');
             const response = await axios.post(path + '/api/generate-content', {
                 headers: { 'Authorization': `Bearer ${token}` },
                 articleSummary,
@@ -101,6 +103,7 @@ const NewsForm = () => {
         formData.append("subtitle_color", subtitleColor);
         formData.append("subtitle_position", subtitlePosition);
 
+        const token = localStorage.getItem('auth_token');
         try {
             const response = await axios.post(path + '/api/generate-video', formData, {
                 headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
@@ -128,6 +131,7 @@ const NewsForm = () => {
         formData.append("subtitle_position", subtitlePosition);
 
         try {
+            const token = localStorage.getItem('auth_token');
             const response = await axios.post(path + '/api/upload-video', formData, {
                 headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
                 responseType: 'blob'
@@ -162,6 +166,7 @@ const NewsForm = () => {
         }
 
         try {
+            const token = localStorage.getItem('auth_token');
             const response = await axios.post(path + '/api/custom-upload-generate', formData, {
                 headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
                 responseType: 'blob'
