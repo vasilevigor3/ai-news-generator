@@ -30,24 +30,16 @@ function LoginPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError('');
-
     try {
-      const response = await fetch(path + '/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, email })
+      const response = await axios.post(`${path}/auth/register`, {
+        username,
+        password,
+        email
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        navigate('/');
-      } else {
-        setError(data.error || 'Registration failed');
-      }
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
+      localStorage.setItem('auth_token', response.data.token); // Store token
+      window.location.href = '/'; // Redirect to home page
+    } catch (error) {
+      console.error('Error during registration:', error);
     }
   };
 

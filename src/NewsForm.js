@@ -195,7 +195,6 @@ const NewsForm = () => {
             try {
                 const response = await axios.get(
                     `${path}/api/templates/${videoLength}`,
-
                 );
                 setTemplateOptions(response.data.templates);
                 setTemplateChoice(''); // Сброс выбранного шаблона
@@ -207,23 +206,11 @@ const NewsForm = () => {
         if (videoLength) fetchTemplates();
     }, [videoLength]);
 
-    const navigate = useNavigate();// useHistory hook for navigation
 
-    const handleLogout = async () => {
-        try {
-            const response = await fetch(path + '/auth/logout', {
-                method: 'GET'
-            });
-            const data = await response.json();
-            if (response.ok) {
-                navigate('/login');
-            } else {
-                console.error('Logout failed', data);
-            }
-        } catch (error) {
-            console.error('Logout error', error);
-        }
-    }
+    const handleLogout = () => {
+        localStorage.removeItem('auth_token'); // Remove JWT token
+        window.location.href = '/login'; // Redirect to login page
+      };
 
     return (
         <Container>
