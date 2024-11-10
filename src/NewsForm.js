@@ -208,7 +208,7 @@ const NewsForm = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('auth_token'); // Remove JWT token
-        window.location.href = '/login'; // Redirect to login page
+        window.location.href = '/'; // Redirect to login page
       };
 
     return (
