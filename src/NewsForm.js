@@ -45,7 +45,7 @@ const NewsForm = () => {
         setContentGenerated(false);
 
         try {
-            const response = await axios.post(path + '/api/fetch-news', { topic });
+            const response = await axios.post(path + '/api/fetch-news', { headers: { 'Authorization': `Bearer ${token}` }, topic });
             const fetchedArticles = response.data;
             setArticles(fetchedArticles);
             setContentGenerated(true);
@@ -75,6 +75,7 @@ const NewsForm = () => {
 
         try {
             const response = await axios.post(path + '/api/generate-content', {
+                headers: { 'Authorization': `Bearer ${token}` },
                 articleSummary,
                 seoKeywords,
                 videoLength,  // Add videoLength here as part of the JSON payload
@@ -102,7 +103,7 @@ const NewsForm = () => {
 
         try {
             const response = await axios.post(path + '/api/generate-video', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+                headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
                 responseType: 'blob'
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -128,7 +129,7 @@ const NewsForm = () => {
 
         try {
             const response = await axios.post(path + '/api/upload-video', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+                headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
                 responseType: 'blob'
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -162,7 +163,7 @@ const NewsForm = () => {
 
         try {
             const response = await axios.post(path + '/api/custom-upload-generate', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+                headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
                 responseType: 'blob'
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -209,7 +210,7 @@ const NewsForm = () => {
     const handleLogout = () => {
         localStorage.removeItem('auth_token'); // Remove JWT token
         window.location.href = '/'; // Redirect to login page
-      };
+    };
 
     return (
         <Container>
