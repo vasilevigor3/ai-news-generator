@@ -19,10 +19,12 @@ function LoginPage() {
         username,
         password
       });
+
       localStorage.setItem('auth_token', response.data.token); // Save token
       window.location.href = '/'; // Redirect to home page after login
     } catch (error) {
       console.error('Error during login:', error);
+      setError('Login failed. Please check your username and password.'); // Set error message
     }
   };
 
