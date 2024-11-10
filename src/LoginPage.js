@@ -14,28 +14,18 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
-  
     try {
-      const response = await fetch(path + '/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ username, password })
+      const response = await axios.post(path + '/auth/login', {
+        username,
+        password
       });
-      
-      const data = await response.json();
-  
-      if (response.ok) {
-        // navigate(data.redirect_url);
-        window.location.href = "https://nice-pebble-0a855410f.5.azurestaticapps.net/"
-      } else {
-        setError(data.error || 'Login failed');
-      }
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
+      localStorage.setItem('auth_token', response.data.token); // Save token
+      window.location.href = '/'; // Redirect to home page after login
+    } catch (error) {
+      console.error('Error during login:', error);
     }
   };
+
 
   const handleRegister = async (e) => {
     e.preventDefault();
