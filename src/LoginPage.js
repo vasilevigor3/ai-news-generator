@@ -27,7 +27,8 @@ function LoginPage() {
       const data = await response.json();
   
       if (response.ok) {
-        navigate(data.redirect_url);
+        // navigate(data.redirect_url);
+        window.location.href = "git commhttps://nice-pebble-0a855410f.5.azurestaticapps.net/"
       } else {
         setError(data.error || 'Login failed');
       }
