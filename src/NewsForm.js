@@ -360,7 +360,7 @@ const NewsForm = () => {
                     <p><strong>Description:</strong> {result.description}</p>
                     {/* Editable script field */}
                     <Form.Group controlId="editableScript">
-                        <Form.Label className='custom-label'><strong>Script:</strong></Form.Label>
+                        <p><strong>Script:</strong></p>
                         <Form.Control
                             as="textarea"
                             rows={2}
