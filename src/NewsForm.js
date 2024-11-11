@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Form, Button, Alert, Spinner, ListGroup } from 'react-bootstrap';
+import path from './config';
 
 const NewsForm = () => {
     const [topic, setTopic] = useState('');
@@ -32,8 +33,6 @@ const NewsForm = () => {
     const [userCustomText, setUserCustomText] = useState('');
     const [showCustomSection, setShowCustomSection] = useState(true);
     const [uploadError, setUploadError] = useState(null);
-    // const path = "http://localhost:5000";
-    const path = "https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net";
 
     const handleFetchNews = async (e) => {
         e.preventDefault();

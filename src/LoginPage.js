@@ -1,6 +1,7 @@
 // src/LoginPage.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import path from './config';
 
 function LoginPage() {
   const [isRegister, setIsRegister] = useState(false);
@@ -8,9 +9,6 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
-
-  // const path = "http://localhost:5000";
-  const path = "https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net";
 
   const handleLogin = async (e) => {
     e.preventDefault();
