@@ -21,6 +21,8 @@ const NewsForm = () => {
     const [videoLength, setVideoLength] = useState("super_short");
     const [subtitleColor, setSubtitleColor] = useState("#ffeb82");
     const [addSubtitles, setAddSubtitles] = useState(false);
+    const [add_original_audio, setAddOriginalAudio] = useState(false);
+    const [add_original_audio_forcustom, setAddOriginalAudioForCustom] = useState(false);
     const [isProcessingVideo, setIsProcessingVideo] = useState(false);
     const [script, setScript] = useState('');
     const [result, setResult] = useState(null);
@@ -30,8 +32,8 @@ const NewsForm = () => {
     const [userCustomText, setUserCustomText] = useState('');
     const [showCustomSection, setShowCustomSection] = useState(true);
     const [uploadError, setUploadError] = useState(null);
-    // const path = "http://localhost:5000";
-    const path = "https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net";
+    const path = "http://localhost:5000";
+    // const path = "https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net";
 
     const handleFetchNews = async (e) => {
         e.preventDefault();
@@ -103,9 +105,13 @@ const NewsForm = () => {
         formData.append("subtitle_color", subtitleColor);
         formData.append("subtitle_position", subtitlePosition);
 
+        if (add_original_audio) {
+            formData.append("add_original_audio", add_original_audio);
+        }
+
         const token = localStorage.getItem('auth_token');
         try {
-            const response = await axios.post(path + '/api/generate-video', formData, {
+            const response = await axios.post(path + '/api/generate-video-on-content', formData, {
                 headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
                 responseType: 'blob'
             });
@@ -129,10 +135,13 @@ const NewsForm = () => {
         const formData = new FormData();
         formData.append("video", userVideo);
         formData.append("subtitle_position", subtitlePosition);
+        if (add_original_audio) {
+            formData.append("add_original_audio", add_original_audio);
+        }
 
         try {
             const token = localStorage.getItem('auth_token');
-            const response = await axios.post(path + '/api/upload-video', formData, {
+            const response = await axios.post(path + '/api/upload-video-for-sub-generation', formData, {
                 headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
                 responseType: 'blob'
             });
@@ -159,6 +168,11 @@ const NewsForm = () => {
         const formData = new FormData();
         formData.append("video", userCustomVideo);
         formData.append("custom_text", userCustomText);
+
+        if (add_original_audio_forcustom) {
+            formData.append("add_original_audio", add_original_audio_forcustom);
+        }
+
         if (addSubtitles) {
             formData.append('add_subtitles', addSubtitles);
             formData.append('subtitle_position', subtitlePosition);
@@ -167,7 +181,7 @@ const NewsForm = () => {
 
         try {
             const token = localStorage.getItem('auth_token');
-            const response = await axios.post(path + '/api/custom-upload-generate', formData, {
+            const response = await axios.post(path + '/api/custom-upload-generation', formData, {
                 headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
                 responseType: 'blob'
             });
@@ -216,6 +230,12 @@ const NewsForm = () => {
         localStorage.removeItem('auth_token'); // Remove JWT token
         window.location.href = '/'; // Redirect to login page
     };
+
+    useEffect(() => {
+        if (generatedVideoUrl) {
+            setCustomGeneratedVideoUrl(null);  // Reset custom URL when generated URL is available
+        }
+    }, [generatedVideoUrl]);
 
     return (
         <Container>
@@ -375,6 +395,16 @@ const NewsForm = () => {
                         </Form.Control>
                     </Form.Group>
 
+                    <Form.Group controlId="add_original_audio" className="mb-2">
+                        <Form.Check
+                            type="checkbox"
+                            label="Save Original Audio"
+                            checked={add_original_audio}
+                            onChange={(e) => setAddOriginalAudio(e.target.checked)}
+                            style={{ marginRight: '470px' }}
+                        />
+                    </Form.Group>
+
                     <Form.Group controlId="subtitleColor" className="mb-2">
                         <Form.Label style={{ fontWeight: 'bold' }}>Select Subtitle Color</Form.Label>
                         <Form.Control
@@ -445,7 +475,17 @@ const NewsForm = () => {
                                         label="Add Subtitles"
                                         checked={addSubtitles}
                                         onChange={(e) => setAddSubtitles(e.target.checked)}
-                                        style={{ marginRight: '510px' }}
+                                        style={{ marginRight: '508px' }}
+                                    />
+                                </Form.Group>
+
+                                <Form.Group controlId="add_original_audio_forcustom" className="mb-2">
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Save Original Audio"
+                                        checked={add_original_audio_forcustom}
+                                        onChange={(e) => setAddOriginalAudioForCustom(e.target.checked)}
+                                        style={{ marginRight: '470px' }}
                                     />
                                 </Form.Group>
 

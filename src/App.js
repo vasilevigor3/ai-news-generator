@@ -6,8 +6,8 @@ import axios from 'axios';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // Initially null to indicate loading.
-  // const path = "http://localhost:5000";
-  const path = "https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net";
+  const path = "http://localhost:5000";
+  // const path = "https://content-helper-f8fjehc2c4asgua8.canadacentral-01.azurewebsites.net";
 
   useEffect(() => {
     const token = localStorage.getItem('auth_token');
