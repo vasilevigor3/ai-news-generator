@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Antic+Didone&family=Poiret+One&family=Quicksand:wght@300..700&display=swap');
+
+/* General body styling */
+.light-gray-background {
+    background-color: #f7f7f7; /* Very light gray */
+}
+/* General body styling */
+body {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+/* Header Styles */
+h1,
+h2,
+h3 {
+    font-family: "Antic Didone", sans-serif;
+    font-weight: 700;
+    /* Bold font for headings */
+    color: #6e7f7a;
+    /* Soft muted green for headings */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+h4,
+h5,
+h6 {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 500;
+    /* Semi-bold for subheadings */
+    color: #9aab9f;
+    /* Muted green */
+}
+
+/* Paragraphs and content */
+p,
+.content {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 400;
+    /* Regular weight for body text */
+    color: #555555;
+    /* Slightly dark text for good contrast */
+    font-size: 1rem;
+}
+
+/* Buttons */
+button {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+    /* Semi-bold weight */
+    padding: 12px 24px;
+    border-radius: 12px;
+    background: #d0d0d0;
+    /* Neutral soft gray background */
+    color: #333333;
+    /* Dark text for good readability */
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #b0b0b0;
+    /* Slightly darker gray for hover effect */
+    transform: scale(1.05);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(168, 168, 168, 0.5);
+    /* Focus state with a subtle outline */
+}
+
+/* Links */
+a {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 400;
+    color: #6e7f7a;
+    /* Soft green link color */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #4a5d56;
+    /* Slightly darker green for hover effect */
+}
+
+/* Section Titles */
+.section-title {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+    /* Semi-bold for section titles */
+    font-size: 1.5rem;
+    color: #6e7f7a;
+    /* Muted green */
+    text-align: center;
+    text-transform: uppercase;
+    padding: 20px 0;
+}
+
+/* Cards (for content display or products) */
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Highlighted Text (e.g., for important points) */
+.important-text {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    /* Bold for emphasis */
+    color: #f0b5b5;
+    /* Soft pastel pink */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #f1f1f1;
+    padding: 20px 0;
+    text-align: center;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 400;
+    color: #777777;
+}
+
+/* Custom Styles for Form Elements */
+.custom-label {
+    font-family: "Quicksand", sans-serif;
+    /* font-weight: bold; */
+    color: #333;
+    /* Dark grey text */
+    font-size: 1.3rem;
+}
+.custom-check {
+    font-family: "Quicksand", sans-serif;
+    /* font-weight: bold; */
+    color: #333;
+    /* Dark grey text */
+    font-size: 1rem;
+}
+
+.custom-control {
+    font-family: "Quicksand", sans-serif;
+    padding: 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    /* Light border */
+}
+
+.custom-button {
+    font-family: "Antic Didone", sans-serif;
+    background-color: #f0f0f0;
+    /* Light grey */
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+}
+
+.custom-button:hover {
+    font-family: "Antic Didone", sans-serif;
+    background-color: #e0e0e0;
+    /* Slightly darker grey on hover */
+}

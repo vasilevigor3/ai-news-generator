@@ -5,6 +5,7 @@ import LoginPage from './LoginPage';
 import axios from 'axios';
 import path from './config';
 
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // Initially null to indicate loading.
 

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Form, Button, Alert, Spinner, ListGroup } from 'react-bootstrap';
 import path from './config';
+// In App.js or NewsForm.js
+import './style.css'; // Make sure the path is correct
+
 
 const NewsForm = () => {
     const [topic, setTopic] = useState('');
@@ -125,7 +128,7 @@ const NewsForm = () => {
         }
     };
 
-    const handleUploadAndGenerate = async () => {
+    const handleCustomVideoSubmission = async () => {
         if (!userVideo) {
             setError("Please upload a video.");
             return;
@@ -239,7 +242,7 @@ const NewsForm = () => {
     return (
         <Container>
             <div className="d-flex justify-content-between align-items-center my-4">
-                <h1 style={{ fontWeight: 'bold' }}>AI Shorts/Reels Video Content Generator</h1>
+                <h1 >AI Shorts/Reels Video Content Generator</h1>
                 <Button variant="outline-secondary" onClick={handleLogout}>
                     Logout
                 </Button>
@@ -248,7 +251,7 @@ const NewsForm = () => {
                 <Col md={6}>
                     <Form onSubmit={handleFetchNews}>
                         <Form.Group controlId="topic" className="mb-2">
-                            <Form.Label style={{ fontWeight: 'bold' }}>Topic</Form.Label>
+                            <Form.Label className='custom-label'>Topic</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="Enter topic (e.g., technology trends)"
@@ -262,8 +265,8 @@ const NewsForm = () => {
                         </Button>
 
                         {/* SEO Keywords */}
-                        <Form.Group controlId="seoKeywords" className="mb-2" style={{ fontWeight: 'bold' }}>
-                            <Form.Label>SEO Keywords</Form.Label>
+                        <Form.Group controlId="seoKeywords" className="mb-2" >
+                            <Form.Label className='custom-label'>SEO Keywords</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="Enter SEO keywords..."
@@ -273,8 +276,8 @@ const NewsForm = () => {
                         </Form.Group>
 
                         {/* Video Length */}
-                        <Form.Group controlId="videoLength" className="mb-2" style={{ fontWeight: 'bold' }}>
-                            <Form.Label>Select Video Length</Form.Label>
+                        <Form.Group controlId="videoLength" className="mb-2" >
+                            <Form.Label className='custom-label'>Select Video Length</Form.Label>
                             <Form.Control as="select" value={videoLength} onChange={(e) => setVideoLength(e.target.value)}>
                                 <option value="super_short">Super Short (about 15 sec)</option>
                                 <option value="short">Short(about 30 sec)</option>
@@ -282,7 +285,7 @@ const NewsForm = () => {
                             </Form.Control>
                         </Form.Group>
                         <Button
-                            variant="success"
+                            variant="primary"
                             className="mb-5"
                             onClick={handleGenerateContent}
                             disabled={loading || (!selectedArticle && !customText)}
@@ -296,7 +299,7 @@ const NewsForm = () => {
                 <Col md={6}>
                     {isCustomTextVisible && contentGenerated ? (
                         <>
-                            <h4>Select an Article</h4>
+                            <Form.Label className='custom-label'>Select an Article</Form.Label>
                             <ListGroup>
                                 {articles.slice(0, visibleCount).map((article, index) => (
                                     <ListGroup.Item
@@ -322,8 +325,8 @@ const NewsForm = () => {
                         </>
                     ) : (
                         <Form.Group controlId="customText" className="mt-4 mt-md-0">
-                            <Form.Label style={{ fontWeight: 'bold' }}>Or Enter Your Own News Text</Form.Label>
-                            <Form.Label>Please enter more than 3 words, my AI need some context to generate some content!</Form.Label>
+                            <Form.Label className='custom-label'>Or Enter Your Own News Text</Form.Label>
+                            <p>Please enter more than 3 words, my AI need some context to generate some content!</p>
                             <Form.Control
                                 as="textarea"
                                 rows={10}
@@ -357,7 +360,7 @@ const NewsForm = () => {
                     <p><strong>Description:</strong> {result.description}</p>
                     {/* Editable script field */}
                     <Form.Group controlId="editableScript">
-                        <Form.Label><strong>Script:</strong></Form.Label>
+                        <Form.Label className='custom-label'><strong>Script:</strong></Form.Label>
                         <Form.Control
                             as="textarea"
                             rows={2}
@@ -376,8 +379,8 @@ const NewsForm = () => {
             <Row className="my-4">
                 <Col md={6}>
                     <Form.Group controlId="templateChoice" className="mb-2">
-                        <Form.Label style={{ fontWeight: 'bold' }}>Select a Video Template</Form.Label>
-                        <Form.Control as="select" value={templateChoice} onChange={(e) => setTemplateChoice(e.target.value)}>
+                        <Form.Label className='custom-label'>Select a Video Template</Form.Label>
+                        <Form.Control className='custom-label' as="select" value={templateChoice} onChange={(e) => setTemplateChoice(e.target.value)}>
                             <option value="">Select a template</option>
                             {templateOptions.map((template, index) => (
                                 <option key={index} value={template}>{template}</option>
@@ -386,8 +389,8 @@ const NewsForm = () => {
                     </Form.Group>
 
                     <Form.Group controlId="subtitlePosition" className="mb-2">
-                        <Form.Label style={{ fontWeight: 'bold' }}>Select Subtitles Position</Form.Label>
-                        <Form.Control as="select" value={subtitlePosition} onChange={(e) => setSubtitlePosition(e.target.value)}>
+                        <Form.Label className='custom-label'>Select Subtitles Position</Form.Label>
+                        <Form.Control className='custom-label' as="select" value={subtitlePosition} onChange={(e) => setSubtitlePosition(e.target.value)}>
                             <option value="bottom">Bottom</option>
                             <option value="top">Top</option>
                             <option value="center">Center</option>
@@ -396,17 +399,19 @@ const NewsForm = () => {
 
                     <Form.Group controlId="add_original_audio" className="mb-2">
                         <Form.Check
+                            className='custom-check'
                             type="checkbox"
                             label="Save Original Audio"
                             checked={add_original_audio}
                             onChange={(e) => setAddOriginalAudio(e.target.checked)}
-                            style={{ marginRight: '470px' }}
+                            style={{ marginRight: '460px' }}
                         />
                     </Form.Group>
 
                     <Form.Group controlId="subtitleColor" className="mb-2">
-                        <Form.Label style={{ fontWeight: 'bold' }}>Select Subtitle Color</Form.Label>
+                        <Form.Label className='custom-label'>Select Subtitle Color</Form.Label>
                         <Form.Control
+                            className='custom-label'
                             as="select"
                             value={subtitleColor}
                             onChange={(e) => setSubtitleColor(e.target.value)}
@@ -433,11 +438,11 @@ const NewsForm = () => {
 
                         <Col md={12} >
                             <Form.Group controlId="userVideo" className="mb-2">
-                                <Form.Label style={{ fontWeight: 'bold' }}>Upload Your Video To Generate and Add Subtitles on it</Form.Label>
+                                <Form.Label className='custom-label'>Upload Your Video To Generate and Add Subtitles on it</Form.Label>
                                 <p >Video should be in English</p>
                                 <Form.Group controlId="subtitlePosition" className="mb-2">
-                                    <Form.Label style={{ fontWeight: 'bold' }}>Select Subtitles Position</Form.Label>
-                                    <Form.Control as="select" value={subtitlePosition} onChange={(e) => setSubtitlePosition(e.target.value)}>
+                                    <Form.Label className='custom-label'>Select Subtitles Position</Form.Label>
+                                    <Form.Control className='custom-label' as="select" value={subtitlePosition} onChange={(e) => setSubtitlePosition(e.target.value)}>
                                         <option value="bottom">Bottom</option>
                                         <option value="top">Top</option>
                                         <option value="center">Center</option>
@@ -448,7 +453,7 @@ const NewsForm = () => {
                             <Button
                                 variant="primary"
                                 className="mb-5"
-                                onClick={handleUploadAndGenerate}
+                                onClick={handleCustomVideoSubmission}
                                 disabled={!result || isProcessingVideo || loading}
                             >
                                 {isProcessingVideo ? <Spinner animation="border" size="sm" /> : "Upload Video"}
@@ -462,14 +467,15 @@ const NewsForm = () => {
                     {showCustomSection ? (
                         <Row className="my-7">
                             <Col md={12} className="text-center">
-                                <h1 style={{ fontWeight: 'bold' }}>Super Custom</h1>
+                                <h1 >Super Custom</h1>
                                 <Form.Group controlId="userCustomVideo" className="mb-2">
-                                    <Form.Label style={{ fontWeight: 'bold' }}>Upload Your Custom Video</Form.Label>
+                                    <Form.Label className='custom-label'>Upload Your Custom Video</Form.Label>
                                     <Form.Control type="file" onChange={(e) => setUserCustomVideo(e.target.files[0])} />
                                 </Form.Group>
 
                                 <Form.Group controlId="addSubtitles" className="mb-2">
                                     <Form.Check
+                                        className='custom-check'
                                         type="checkbox"
                                         label="Add Subtitles"
                                         checked={addSubtitles}
@@ -480,18 +486,19 @@ const NewsForm = () => {
 
                                 <Form.Group controlId="add_original_audio_forcustom" className="mb-2">
                                     <Form.Check
+                                        className='custom-check'
                                         type="checkbox"
                                         label="Save Original Audio"
                                         checked={add_original_audio_forcustom}
                                         onChange={(e) => setAddOriginalAudioForCustom(e.target.checked)}
-                                        style={{ marginRight: '470px' }}
+                                        style={{ marginRight: '460px' }}
                                     />
                                 </Form.Group>
 
                                 {addSubtitles && (
                                     <>
                                         <Form.Group controlId="subtitlePosition" className="mb-2">
-                                            <Form.Label style={{ fontWeight: 'bold' }}>Select Subtitles Position</Form.Label>
+                                            <Form.Label className='custom-label'>Select Subtitles Position</Form.Label>
                                             <Form.Control as="select" value={subtitlePosition} onChange={(e) => setSubtitlePosition(e.target.value)}>
                                                 <option value="bottom">Bottom</option>
                                                 <option value="top">Top</option>
@@ -500,7 +507,7 @@ const NewsForm = () => {
                                         </Form.Group>
 
                                         <Form.Group controlId="subtitleColor" className="mb-2">
-                                            <Form.Label style={{ fontWeight: 'bold' }}>Select Subtitle Color</Form.Label>
+                                            <Form.Label className='custom-label'>Select Subtitle Color</Form.Label>
                                             <Form.Control
                                                 as="select"
                                                 value={subtitleColor}
@@ -517,7 +524,7 @@ const NewsForm = () => {
                                 )}
 
                                 <Form.Group controlId="userCustomText" className="mb-2">
-                                    <Form.Label style={{ fontWeight: 'bold' }}>Enter Your Custom Text</Form.Label>
+                                    <Form.Label className='custom-label'>Enter Your Custom Text</Form.Label>
                                     <Form.Control
                                         as="textarea"
                                         rows={3}
@@ -569,6 +576,8 @@ const NewsForm = () => {
 
             </Row>
         </Container>
+
+
     );
 };
 
