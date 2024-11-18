@@ -178,3 +178,22 @@ footer {
     background-color: #e0e0e0;
     /* Slightly darker grey on hover */
 }
+
+.hover-background {
+    transition: background-color 3s ease;
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden;
+    padding: 10px; /* Adjust padding as needed */
+}
+
+.hover-background:hover {
+   /* background-color: #f0f8ff;  Light background color on hover */
+    background-color: #cecece; /* Light background color on hover */
+    cursor: pointer;
+}
+
+.static-color{
+    padding: 25px;
+    border-radius: 10px;
+    background-color: #cecece;
+}
