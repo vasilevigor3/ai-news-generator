@@ -574,6 +574,7 @@ const NewsForm = () => {
                             onChange={(e) => setFontName(e.target.value)}
                         >
                             <option value="Anton">Anton</option>
+                            <option value="Nunito">Nunito</option>
                             <option value="Arial">Arial</option>
                             <option value="Verdana">Verdana</option>
                             <option value="Tahoma">Tahoma</option>
@@ -735,6 +736,7 @@ const NewsForm = () => {
                                                 onChange={(e) => setFontName(e.target.value)}
                                             >
                                                 <option value="Anton">Anton</option>
+                                                <option value="Nunito">Nunito</option>
                                                 <option value="Arial">Arial</option>
                                                 <option value="Verdana">Verdana</option>
                                                 <option value="Tahoma">Tahoma</option>
@@ -863,6 +865,7 @@ const NewsForm = () => {
                                     onChange={(e) => setFontName(e.target.value)}
                                 >
                                     <option value="Anton">Anton</option>
+                                    <option value="Nunito">Nunito</option>
                                     <option value="Arial">Arial</option>
                                     <option value="Times New Roman">Times New Roman</option>
                                     <option value="Courier New">Courier New</option>
