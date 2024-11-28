@@ -414,6 +414,9 @@ const NewsForm = () => {
                                     >
                                         <strong>{article.name}</strong> <br />
                                         <small>{article.description}</small>
+                                        <a href={article.url} target="_blank" rel="noopener noreferrer">
+                                            {article.url}
+                                        </a>
                                     </ListGroup.Item>
                                 ))}
                             </ListGroup>
